@@ -68,18 +68,12 @@ body {
 .letter {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 50%; /* Base position */
   width: 90%;
-  height: 95%;
+  height: 100%; 
   transform: translate(-50%, -50%);
-  background-color: #fff9e6;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), transparent),
-    linear-gradient(rgba(200, 180, 150, 0.1) 1px, transparent 1px);
-  background-size: 100% 1.5rem;
-  padding: 20px 15px;
   z-index: 2;
-  transition: top 0.6s ease-in-out;
+  transition: top 0.5s ease-in-out; /* Smooth slide */
 }
 
 .words {
@@ -128,15 +122,31 @@ body {
   transition: transform 0.6s ease-in-out, z-index 0.4s;
 }
 
-/* --- ANIMATION STATES --- */
+/* --- ANIMATION STATES (Fixed for Closing) --- */
+
+/* When Opening: Flap opens first, then letter pops up */
 .open .flap {
   transform: rotateX(180deg);
   z-index: 1;
+  transition-delay: 0s; /* Flap moves immediately */
 }
 
 .open .letter {
-  top: -10%; /* Lowered pop-up to keep faces clear */
-  transition-delay: 0.5s;
+  top: 15%; /* Keeps it tucked in the pocket */
+  transition-delay: 0.4s; /* Letter waits for flap to open */
+}
+
+/* When Closing: Letter slides down first, then flap closes */
+.close .letter {
+  top: 50%; /* Slides back to center */
+  transition-delay: 0s; /* Letter moves immediately */
+}
+
+.close .flap {
+  transform: rotateX(0deg);
+  z-index: 5;
+  transition-delay: 0.4s; /* Flap waits for letter to be inside */
+}
 }
 
 /* --- HEARTS --- */
