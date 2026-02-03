@@ -1,4 +1,3 @@
-/* --- RESET --- */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +16,6 @@ body {
   padding-bottom: 50px; 
 }
 
-/* --- VIDEO & EFFECTS --- */
 #bg-video {
   position: fixed;
   top: 0;
@@ -39,7 +37,6 @@ body {
   pointer-events: none;
 }
 
-/* --- PETAL RAIN --- */
 #petals-container {
   position: fixed;
   top: 0;
@@ -63,7 +60,6 @@ body {
   100% { transform: translateY(110vh) rotate(360deg); }
 }
 
-/* --- ENVELOPE WRAPPER --- */
 .container {
   position: relative;
   z-index: 10;
@@ -88,7 +84,6 @@ body {
   z-index: 1;
 }
 
-/* --- THE LETTER --- */
 .letter {
   position: absolute;
   left: 50%;
@@ -101,26 +96,27 @@ body {
     radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), transparent),
     linear-gradient(rgba(200, 180, 150, 0.1) 1px, transparent 1px);
   background-size: 100% 1.5rem;
-  padding: 20px 15px;
+  /* Lifted text higher by reducing bottom padding */
+  padding: 15px 15px 5px 15px; 
   z-index: 2;
   transition: top 0.5s ease-in-out; 
 }
 
 .words {
   text-align: center;
-  font-size: 1.6rem;
+  font-size: 1.4rem; 
   color: #ff1744;
-  line-height: 1.8rem;
+  line-height: 1.45rem; 
+  margin-bottom: 2px;
 }
 
 .emoji {
   color: initial; 
   font-family: Arial, sans-serif;
   display: inline-block;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
-/* --- ENVELOPE PIECES --- */
 .side {
   position: absolute;
   width: 100%;
@@ -151,14 +147,12 @@ body {
   transition: transform 0.4s ease-in-out, z-index 0.4s;
 }
 
-/* --- ANIMATION SEQUENCES --- */
 .open .flap { transform: rotateX(180deg); z-index: 1; transition-delay: 0s; }
 .open .letter { top: 15%; transition-delay: 0.5s; }
 
 .close .letter { top: 50%; transition-delay: 0s; }
 .close .flap { transform: rotateX(0deg); z-index: 5; transition-delay: 0.5s; }
 
-/* --- THE WOW BUTTON --- */
 .button-container {
   margin-top: 35px;
   z-index: 15;
@@ -185,7 +179,6 @@ body {
   50% { transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 23, 88, 0.9); }
 }
 
-/* --- HEARTS --- */
 .hearts { position: absolute; top: 20px; width: 100%; height: 100%; z-index: 2.5; pointer-events: none; }
 .heart { position: absolute; bottom: 0; width: 18px; height: 18px; background-color: #ff1744; transform: rotate(-45deg); opacity: 0; }
 .heart::before, .heart::after { content: ""; position: absolute; width: 18px; height: 18px; background-color: #ff1744; border-radius: 50%; }
@@ -197,13 +190,3 @@ body {
   100% { transform: translateY(-300px) scale(2.2) rotate(-45deg); opacity: 0; }
 }
 .open .heart { animation: floatAndGrow 3.5s ease-in-out infinite; }
-.a1 { left: 15%; animation-delay: 0.5s; }
-.a2 { left: 35%; animation-delay: 1.5s; }
-.a3 { left: 65%; animation-delay: 2.5s; }
-.a4 { left: 85%; animation-delay: 0.8s; }
-
-@media (min-width: 768px) {
-  .envelope-wrapper { width: 450px; height: 300px; }
-  .words { font-size: 2.2rem; line-height: 2.4rem; }
-  body { padding-bottom: 80px; }
-}
