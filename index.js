@@ -31,13 +31,11 @@ $(document).ready(function () {
     }
   }
 
-  // YES: Link to your page
   $("#yes-btn").on("click", function(e) {
     e.stopPropagation();
     window.location.href = "YOUR_LINK_HERE"; 
   });
 
-  // NO: Mobile & Desktop Hide and Seek
   noBtn.on("touchstart mouseover", function(e) {
     if (e.type === "touchstart") e.preventDefault();
     e.stopPropagation();
