@@ -4,15 +4,12 @@ $(document).ready(function () {
 
   envelope.on("click", function () {
     if (envelope.hasClass("close")) {
-      // Open
       envelope.removeClass("close").addClass("open");
-      
-      // Play music logic
       if (music && music.paused) {
-        music.play().catch((e) => console.log("Audio play error:", e));
+        music.play().catch(() => {});
       }
     } else {
-      // Close
+      // Transition delay in CSS handles the smooth "letter first, then flap" sequence
       envelope.removeClass("open").addClass("close");
     }
   });
