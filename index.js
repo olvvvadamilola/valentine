@@ -1,14 +1,15 @@
 $(document).ready(function () {
   const envelope = $("#envelope");
+  const btnOpen = $("#openBtn");
+  const btnClose = $("#closeBtn");
   const music = document.getElementById("bg-music");
-  let isAnimating = false; // Prevents clicking while animation is running
 
   function openEnvelope() {
     envelope.addClass("open").removeClass("close");
     
-    // Attempt to play music
+    // Play music when opened
     if (music && music.paused) {
-      music.play().catch((e) => console.log("Interaction required for audio"));
+      music.play().catch((e) => console.log("Audio play failed (user interaction needed first)"));
     }
   }
 
@@ -16,19 +17,12 @@ $(document).ready(function () {
     envelope.addClass("close").removeClass("open");
   }
 
-  envelope.on("click", function () {
-    if (isAnimating) return; // Stop logic if currently moving
-    isAnimating = true;
+  // Button Event Listeners
+  btnOpen.click(function() {
+    openEnvelope();
+  });
 
-    if (envelope.hasClass("open")) {
-      closeEnvelope();
-    } else {
-      openEnvelope();
-    }
-    
-    // Allow clicking again after the animation (1.5s) finishes
-    setTimeout(() => {
-        isAnimating = false;
-    }, 1500); 
+  btnClose.click(function() {
+    closeEnvelope();
   });
 });
