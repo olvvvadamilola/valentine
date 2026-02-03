@@ -1,4 +1,4 @@
-/* --- RESEET & BODY --- */
+/* --- RESET & BODY --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   width: 100vw; height: 100vh;
@@ -7,32 +7,19 @@ body {
   background-color: #000; padding-bottom: 50px; 
 }
 
-/* --- VIDeEO & EFFECTS --- */
 #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; object-fit: cover; }
-.vignette {
-  position: fixed; bottom: 0; left: 0; width: 100%; height: 40%;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  z-index: 0; pointer-events: none;
-}
+.vignette { position: fixed; bottom: 0; left: 0; width: 100%; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 0; pointer-events: none; }
 #petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
-.petal {
-  position: absolute; background-color: #ff4d6d;
-  border-radius: 150% 0 150% 0; opacity: 0.7;
-  animation: fall linear infinite;
-}
+.petal { position: absolute; background-color: #ff4d6d; border-radius: 150% 0 150% 0; opacity: 0.7; animation: fall linear infinite; }
 @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
 
-/* --- POLAROID (Slides Left to keep video clear) --- */
+/* --- POLAROID --- */
 .polaroid {
-  position: absolute; left: 50%; top: 50%;
-  width: 160px; height: 200px;
-  background-color: white; padding: 10px 10px 25px 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  transform: translate(-50%, -50%) rotate(0deg);
-  z-index: 1.5; opacity: 0;
-  transition: all 0.8s ease-in-out;
-  transition-delay: 0.7s;
+  position: absolute; left: 50%; top: 50%; width: 160px; height: 200px;
+  background-color: white; padding: 10px 10px 25px 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  transform: translate(-50%, -50%) rotate(0deg); z-index: 1.5; opacity: 0;
+  transition: all 0.8s ease-in-out; transition-delay: 0.7s;
 }
 .polaroid img { width: 100%; height: 140px; object-fit: cover; border: 1px solid #eee; }
 .polaroid-caption { font-size: 1rem; color: #444; text-align: center; margin-top: 8px; }
@@ -40,11 +27,7 @@ body {
 .open .polaroid { transform: translate(-145%, -65%) rotate(-12deg); opacity: 1; }
 .close .polaroid { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; transition-delay: 0s; }
 
-/* --- ENVELOPE & LETTER --- */
-.container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-.envelope-wrapper { position: relative; width: 300px; height: 200px; }
-#envelope { position: relative; width: 100%; height: 100%; background: #ff2d55; box-shadow: 0 0 40px rgba(0,0,0,0.6); cursor: pointer; z-index: 1; }
-
+/* --- LETTER & BUTTONS --- */
 .letter {
   position: absolute; left: 50%; top: 50%; width: 90%; height: 100%; 
   transform: translate(-50%, -50%); background-color: #fff9e6;
@@ -53,45 +36,39 @@ body {
   transition: top 0.5s ease-in-out; 
 }
 .words { text-align: center; font-size: 1.4rem; color: #ff1744; line-height: 1.45rem; margin-bottom: 2px; }
-.emoji { color: initial; font-family: Arial; display: inline-block; transform: scale(1.1); }
 
-/* --- ENVELOPE PIECES --- */
+.decision-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 10px; }
+#yes-btn, #no-btn { padding: 6px 16px; font-family: 'Engagement', cursive; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer; transition: transform 0.2s ease; }
+#yes-btn { background: #ff1744; color: white; animation: pulse 1.5s infinite; }
+#no-btn { background: #eeeeee; color: #888; position: relative; }
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 23, 68, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 23, 68, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); }
+}
+
+/* --- ENVELOPE BASE --- */
+.container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
+.envelope-wrapper { position: relative; width: 300px; height: 200px; }
+#envelope { position: relative; width: 100%; height: 100%; background: #ff2d55; box-shadow: 0 0 40px rgba(0,0,0,0.6); cursor: pointer; z-index: 1; }
 .side { position: absolute; width: 100%; height: 100%; background: #ff5e78; z-index: 3; }
 .side.left { clip-path: polygon(0 0, 0 100%, 50% 50%); }
 .side.right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
 .pocket { position: absolute; width: 100%; height: 100%; background: #ff9eb0; clip-path: polygon(0 100%, 100% 100%, 50% 50%); z-index: 4; }
-.flap {
-  position: absolute; width: 100%; height: 100%; background: #ff3d5c;
-  clip-path: polygon(0 0, 100% 0, 50% 50%); z-index: 5;
-  transform-origin: top; transition: transform 0.4s ease-in-out, z-index 0.4s;
-}
+.flap { position: absolute; width: 100%; height: 100%; background: #ff3d5c; clip-path: polygon(0 0, 100% 0, 50% 50%); z-index: 5; transform-origin: top; transition: transform 0.4s ease-in-out, z-index 0.4s; }
 
 .open .flap { transform: rotateX(180deg); z-index: 1; }
 .open .letter { top: 15%; transition-delay: 0.5s; }
 .close .letter { top: 50%; transition-delay: 0s; }
 .close .flap { transform: rotateX(0deg); z-index: 5; transition-delay: 0.5s; }
 
-/* --- BUTTON & HEARTS --- */
-#action-btn {
-  background: linear-gradient(45deg, #ff1744, #ff5e78); color: white; border: none;
-  padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 50px;
-  cursor: pointer; box-shadow: 0 0 15px rgba(255, 23, 88, 0.6);
-  text-transform: uppercase; letter-spacing: 2px;
-  animation: breathe 2.5s infinite ease-in-out;
-}
+#action-btn { background: linear-gradient(45deg, #ff1744, #ff5e78); color: white; border: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; animation: breathe 2.5s infinite ease-in-out; }
 @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-
-.hearts { position: absolute; top: 20px; width: 100%; height: 100%; z-index: 2.5; pointer-events: none; }
-.heart { position: absolute; bottom: 0; width: 18px; height: 18px; background-color: #ff1744; transform: rotate(-45deg); opacity: 0; }
-.heart::before, .heart::after { content: ""; position: absolute; width: 18px; height: 18px; background-color: #ff1744; border-radius: 50%; }
-.heart::before { top: -9px; left: 0; } .heart::after { left: 9px; top: 0; }
-@keyframes floatAndGrow { 0% { transform: translateY(0) scale(0.5) rotate(-45deg); opacity: 0; } 100% { transform: translateY(-300px) scale(2.2) rotate(-45deg); opacity: 0; } }
-.open .heart { animation: floatAndGrow 3.5s ease-in-out infinite; }
 
 @media (min-width: 768px) {
   .envelope-wrapper { width: 450px; height: 300px; }
   .polaroid { width: 220px; height: 280px; }
-  .polaroid img { height: 210px; }
   .words { font-size: 2.2rem; line-height: 2.4rem; }
   .open .polaroid { transform: translate(-155%, -65%) rotate(-15deg); }
 }
