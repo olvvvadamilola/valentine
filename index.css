@@ -11,26 +11,20 @@ body {
 /* Wrapper */
 .envelope-wrapper {
   width: 360px;
-  perspective: 1200px;
+  height: 240px;
+  /* Added padding top so the letter doesn't get cut off when it moves up */
+  padding-top: 200px; 
 }
 
 /* Envelope container */
 #envelope {
   position: relative;
-  width: 100%;
+  width: 360px;
   height: 240px;
+  background: #ff2d55; /* Back color */
   cursor: pointer;
-  overflow: hidden; /* CRITICAL FIX */
-}
-
-/* Envelope body */
-#envelope::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #ff2d55;
-  border-radius: 8px;
-  z-index: 1;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  /* CRITICAL FIX: Removed overflow: hidden so hearts/letter can fly out */
 }
 
 /* Top flap */
@@ -39,96 +33,128 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 55%;
+  height: 100%; /* Changed to 100% to cover properly */
   background: #ff3d5c;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 55%); /* Adjusted shape */
   transform-origin: top;
-  transition: transform 0.7s ease;
-  z-index: 4;
+  /* FIX: Slowed down to 1.5s */
+  transition: transform 1.5s ease-in-out, z-index 1.5s; 
+  z-index: 5; /* Topmost when closed */
 }
 
-/* Pocket */
+/* Side Flaps (New) - Covers the letter sides */
+.side {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ff5e78; /* Slightly darker than pocket for depth */
+  top: 0;
+  z-index: 3; /* Above letter, below bottom pocket */
+}
+
+.side.left {
+  clip-path: polygon(0 0, 0 100%, 50% 50%);
+}
+
+.side.right {
+  clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+}
+
+/* Bottom Pocket */
 .pocket {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 55%;
+  height: 100%;
   background: #ff9eb0;
-  clip-path: polygon(0 100%, 100% 100%, 50% 0);
-  z-index: 3;
+  /* Changed clip-path to be just the bottom triangle */
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%); 
+  z-index: 4; /* Above sides and letter */
 }
 
 /* Letter */
 .letter {
   position: absolute;
   left: 50%;
-  top: 35%;
-  width: 80%;
-  height: 60%;
-  transform: translateX(-50%);
+  top: 50%; /* Start inside */
+  width: 85%;
+  height: 80%;
+  transform: translate(-50%, -50%); /* Center it */
   background: #fff;
   border-radius: 6px;
-  padding: 16px;
+  padding: 20px;
   box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: top 0.7s ease;
-  z-index: 2;
+  transition: top 1.5s ease-in-out, z-index 0.5s;
+  z-index: 2; /* Inside the envelope (below flaps) */
 }
 
 /* Open state */
 .open .flap {
   transform: rotateX(180deg);
-  z-index: 1;
+  z-index: 1; /* Moves behind everything when open */
 }
 
 .open .letter {
-  top: -30%;
-  z-index: 5;
+  top: -60px; /* Moves up out of envelope */
+  z-index: 6; /* Moves slightly above pocket for readability */
 }
 
-/* Text */
+/* Text Formatting */
 .words {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
   text-align: center;
   font-size: 1.1rem;
   color: #ff6b81;
   font-weight: 600;
+  margin-bottom: 5px;
 }
-
-.line1 { top: 10%; }
-.line2 { top: 28%; }
-.line3 { top: 46%; }
-.line4 { top: 64%; }
-.line5 { top: 82%; }
 
 /* Hearts */
 .hearts {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  z-index: 6;
+  z-index: 10;
 }
 
 .heart {
   position: absolute;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.open .heart {
-  opacity: 1;
+  bottom: 0;
+  opacity: 0; /* Hidden by default */
 }
 
 .heart::before {
   content: "❤";
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #ff1744;
 }
 
-.a1 { top: 15%; left: 20%; }
-.a2 { top: 45%; left: 55%; }
-.a3 { top: 70%; left: 30%; }
+/* FIX: Animation for hearts */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Trigger animation only when open */
+.open .heart {
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+/* Stagger the hearts so they don't move together */
+.a1 { left: 20%; animation-delay: 0.2s !important; }
+.a2 { left: 50%; animation-delay: 1.5s !important; }
+.a3 { left: 80%; animation-delay: 0.8s !important; }
