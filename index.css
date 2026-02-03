@@ -10,16 +10,14 @@ body {
   height: 100vh;
   display: flex;
   justify-content: center;
-  /* Shifted from center to flex-end to keep faces clear */
-  align-items: flex-end; 
+  align-items: flex-end; /* Positioned at bottom */
   font-family: 'Engagement', cursive;
   overflow: hidden;
   background-color: #000;
-  /* Buffer space from the bottom edge */
   padding-bottom: 60px; 
 }
 
-/* --- VIDEO --- */
+/* --- VIDEO & EFFECTS --- */
 #bg-video {
   position: fixed;
   top: 0;
@@ -28,6 +26,17 @@ body {
   height: 100%;
   z-index: -1;
   object-fit: cover;
+}
+
+.vignette {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* --- WRAPPER --- */
@@ -50,25 +59,25 @@ body {
   width: 100%;
   height: 100%;
   background: #ff2d55;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
   cursor: pointer;
   z-index: 1;
 }
 
-/* --- LETTER & TEXT --- */
+/* --- LETTER --- */
 .letter {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 90%;
-  height: 90%;
+  height: 95%;
   transform: translate(-50%, -50%);
   background-color: #fff9e6;
   background-image: 
     radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), transparent),
     linear-gradient(rgba(200, 180, 150, 0.1) 1px, transparent 1px);
   background-size: 100% 1.5rem;
-  padding: 15px;
+  padding: 20px 15px;
   z-index: 2;
   transition: top 0.6s ease-in-out;
 }
@@ -78,6 +87,7 @@ body {
   font-size: 1.6rem;
   color: #ff1744;
   line-height: 1.8rem;
+  margin-bottom: 5px;
 }
 
 .emoji {
@@ -125,8 +135,7 @@ body {
 }
 
 .open .letter {
-  /* Reduced height so it doesn't pop up into the faces */
-  top: -10%; 
+  top: -10%; /* Lowered pop-up to keep faces clear */
   transition-delay: 0.5s;
 }
 
@@ -175,15 +184,15 @@ body {
 
 /* --- HINT --- */
 .hint-text {
-  margin-top: 30px;
+  margin-top: 25px;
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
 }
 
 /* --- DESKTOP --- */
 @media (min-width: 768px) {
   .envelope-wrapper { width: 450px; height: 300px; }
-  .words { font-size: 2rem; line-height: 2.2rem; }
-  body { padding-bottom: 100px; } /* More space for desktop screens */
+  .words { font-size: 2.2rem; line-height: 2.4rem; }
+  body { padding-bottom: 100px; }
 }
