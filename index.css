@@ -114,83 +114,55 @@ body {
   transition-delay: 0.6s;
 }
 
+/* --- HEARTS (Coming from INSIDE) --- */
 .hearts {
   position: absolute;
   top: 90px;
   left: 0;
-  right: 0;
-  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Placed between letter and pocket */
+  z-index: 2.5; 
 }
 
 .heart {
   position: absolute;
   bottom: 0;
-  right: 10%;
-  pointer-events: none;
-}
-
-.heart:before,
-.heart:after {
-  position: absolute;
-  content: "";
-  left: 50px;
-  top: 0;
-  width: 50px;
-  height: 80px;
-  background: #e60073; /* Deep romantic pink */
-  border-radius: 50px 50px 0 0;
+  width: 20px;
+  height: 20px;
+  background-color: #e60073;
   transform: rotate(-45deg);
-  transform-origin: 0 100%;
-  pointer-events: none;
-}
-
-.heart:after {
-  left: 0;
-  transform: rotate(45deg);
-  transform-origin: 100% 100%;
-}
-
-.close .heart {
   opacity: 0;
-  -webkit-animation: none;
-  animation: none;
 }
 
-.a1 {
-  left: 20%;
-  transform: scale(0.6);
-  opacity: 1;
-  -webkit-animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
-  -moz-animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-delay: 0.7s;
-  animation-delay: 0.7s;
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #e60073;
+  border-radius: 50%;
 }
 
-.a2 {
-  left: 55%;
-  transform: scale(1);
-  opacity: 1;
-  -webkit-animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
-  -moz-animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-delay: 0.7s;
-  animation-delay: 0.7s;
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: 10px; top: 0; }
+
+@keyframes floatAndGrow {
+  0% { transform: translateY(0) scale(0.5) rotate(-45deg); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-300px) scale(2.5) rotate(-45deg); opacity: 0; }
 }
 
-.a3 {
-  left: 10%;
-  transform: scale(0.8);
-  opacity: 1;
-  -webkit-animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
-  -moz-animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-delay: 0.7s;
-  animation-delay: 0.7s;
+.open .heart {
+  animation: floatAndGrow 3.5s ease-in-out infinite;
 }
+
+.a1 { left: 20%; animation-delay: 0.5s; }
+.a2 { left: 40%; animation-delay: 1.2s; }
+.a3 { left: 60%; animation-delay: 2.2s; }
+.a4 { left: 80%; animation-delay: 1.7s; }
 
 .hint-text {
   margin-top: 30px;
