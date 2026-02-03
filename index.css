@@ -37,7 +37,10 @@ body {
 .polaroid img { width: 100%; height: 140px; object-fit: cover; border: 1px solid #eee; }
 .polaroid-caption { font-size: 1rem; color: #444; text-align: center; margin-top: 8px; }
 
-.open .polaroid { transform: translate(45%, -65%) rotate(12deg); opacity: 1; }
+.open .polaroid { 
+  /* Changed 45% to -45% to slide left, and flipped the rotation to -12deg */
+  transform: translate(-145%, -65%) rotate(-12deg); 
+  opacity: 1;
 .close .polaroid { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; transition-delay: 0s; }
 
 /* --- ENVELOPE & LETTER --- */
@@ -91,8 +94,8 @@ body {
 .a1 { left: 15%; animation-delay: 0.5s; } .a2 { left: 35%; animation-delay: 1.5s; } .a3 { left: 65%; animation-delay: 2.5s; } .a4 { left: 85%; animation-delay: 0.8s; }
 
 @media (min-width: 768px) {
-  .envelope-wrapper { width: 450px; height: 300px; }
-  .polaroid { width: 220px; height: 280px; }
-  .polaroid img { height: 210px; }
-  .words { font-size: 2.2rem; line-height: 2.4rem; }
+  .open .polaroid { 
+    /* Adjusting for larger screens to ensure it doesn't fly off-canvas */
+    transform: translate(-155%, -65%) rotate(-15deg); 
+  }
 }
