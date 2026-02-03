@@ -34,7 +34,7 @@ body {
   transition: all 0.8s ease-in-out;
   transition-delay: 0.7s; /* Slides out after letter rises */
 }
-.polaroid img { width: 100%; height: 140px; object-fit: cover; border: 1px solid #eee; }
+.polaroid img { width: 100%; height: 140px; object-fit: contain; border: 1px solid #eee; }
 .polaroid-caption { font-size: 1rem; color: #444; text-align: center; margin-top: 8px; }
 
 .open .polaroid { transform: translate(45%, -75%) rotate(15deg); opacity: 1; }
