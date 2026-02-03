@@ -25,20 +25,45 @@ body {
 
 /* --- POLAROID --- */
 .polaroid {
-  position: absolute; left: 50%; top: 50%;
-  width: 160px; height: 200px;
-  background-color: white; padding: 10px 10px 25px 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160px;
+  height: 200px;
+  background-color: white;
+  padding: 10px 10px 25px 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   transform: translate(-50%, -50%) rotate(0deg);
-  z-index: 1.5; opacity: 0;
+  z-index: 1.5;
+  opacity: 0;
   transition: all 0.8s ease-in-out;
-  transition-delay: 0.7s; /* Slides out after letter rises */
+  transition-delay: 0.7s;
 }
-.polaroid img { width: 100%; height: 140px; object-fit: contain; border: 1px solid #eee; }
-.polaroid-caption { font-size: 1rem; color: #444; text-align: center; margin-top: 8px; }
+.polaroid img {
+  width: 100%;
+  height: 140px;
+  /* Use 'contain' if the faces are being cropped too much */
+  object-fit: cover; 
+  border: 1px solid #eee;
+}
+.polaroid-caption {
+  font-size: 1rem;
+  color: #444;
+  text-align: center;
+  margin-top: 8px;
+}
 
-.open .polaroid { transform: translate(45%, -75%) rotate(15deg); opacity: 1; }
-.close .polaroid { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; transition-delay: 0s; }
+.open .polaroid {
+  /* This moves it to the left side (-145%) and tilts it (-12deg) */
+  transform: translate(-145%, -65%) rotate(-12deg);
+  opacity: 1;
+}
+
+.close .polaroid {
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 0;
+  transition-delay: 0s;
+}
 
 /* --- ENVELOPE & LETTER --- */
 .container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
@@ -91,8 +116,7 @@ body {
 .a1 { left: 15%; animation-delay: 0.5s; } .a2 { left: 35%; animation-delay: 1.5s; } .a3 { left: 65%; animation-delay: 2.5s; } .a4 { left: 85%; animation-delay: 0.8s; }
 
 @media (min-width: 768px) {
-  .envelope-wrapper { width: 450px; height: 300px; }
   .polaroid { width: 220px; height: 280px; }
   .polaroid img { height: 210px; }
-  .words { font-size: 2.2rem; line-height: 2.4rem; }
+  .open .polaroid { transform: translate(-155%, -65%) rotate(-15deg); }
 }
