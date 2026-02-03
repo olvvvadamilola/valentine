@@ -10,7 +10,7 @@ body {
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* Positioned at bottom */
+  align-items: flex-end; 
   font-family: 'Engagement', cursive;
   overflow: hidden;
   background-color: #000;
@@ -64,16 +64,22 @@ body {
   z-index: 1;
 }
 
-/* --- LETTER --- */
+/* --- THE LETTER (Core Styling) --- */
 .letter {
   position: absolute;
   left: 50%;
-  top: 50%; /* Base position */
+  top: 50%; 
   width: 90%;
   height: 100%; 
   transform: translate(-50%, -50%);
+  background-color: #fff9e6; /* Parchment Color */
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), transparent),
+    linear-gradient(rgba(200, 180, 150, 0.1) 1px, transparent 1px);
+  background-size: 100% 1.5rem;
+  padding: 20px 15px;
   z-index: 2;
-  transition: top 0.5s ease-in-out; /* Smooth slide */
+  transition: top 0.5s ease-in-out; 
 }
 
 .words {
@@ -91,7 +97,7 @@ body {
   transform: scale(1.2);
 }
 
-/* --- ENVELOPE PARTS --- */
+/* --- ENVELOPE PIECES --- */
 .side {
   position: absolute;
   width: 100%;
@@ -119,34 +125,33 @@ body {
   clip-path: polygon(0 0, 100% 0, 50% 50%);
   z-index: 5;
   transform-origin: top;
-  transition: transform 0.6s ease-in-out, z-index 0.4s;
+  transition: transform 0.4s ease-in-out, z-index 0.4s;
 }
 
-/* --- ANIMATION STATES (Fixed for Closing) --- */
+/* --- ANIMATION STATES --- */
 
-/* When Opening: Flap opens first, then letter pops up */
+/* OPENING SEQUENCE */
 .open .flap {
   transform: rotateX(180deg);
   z-index: 1;
-  transition-delay: 0s; /* Flap moves immediately */
+  transition-delay: 0s;
 }
 
 .open .letter {
-  top: 15%; /* Keeps it tucked in the pocket */
-  transition-delay: 0.4s; /* Letter waits for flap to open */
+  top: 15%; /* Pops up */
+  transition-delay: 0.5s; 
 }
 
-/* When Closing: Letter slides down first, then flap closes */
+/* CLOSING SEQUENCE */
 .close .letter {
-  top: 50%; /* Slides back to center */
-  transition-delay: 0s; /* Letter moves immediately */
+  top: 50%; /* Goes back inside */
+  transition-delay: 0s;
 }
 
 .close .flap {
   transform: rotateX(0deg);
   z-index: 5;
-  transition-delay: 0.4s; /* Flap waits for letter to be inside */
-}
+  transition-delay: 0.5s; /* Waits for paper to be safe */
 }
 
 /* --- HEARTS --- */
@@ -192,7 +197,6 @@ body {
 .a3 { left: 65%; animation-delay: 2.5s; }
 .a4 { left: 85%; animation-delay: 0.8s; }
 
-/* --- HINT --- */
 .hint-text {
   margin-top: 25px;
   color: white;
@@ -200,7 +204,6 @@ body {
   text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
 }
 
-/* --- DESKTOP --- */
 @media (min-width: 768px) {
   .envelope-wrapper { width: 450px; height: 300px; }
   .words { font-size: 2.2rem; line-height: 2.4rem; }
