@@ -41,15 +41,19 @@ body {
 /* ---------------- Flap ---------------- */
 .flap {
   position: absolute;
-  top: 0; left: 0;
-  width: 0; height: 0;
-  border-left: 50% solid transparent;
-  border-right: 50% solid transparent;
-  border-bottom: 40% solid #ff3d5c;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ff3d5c;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top center;
-  transform: rotateX(0deg);
   transition: transform 0.6s ease;
   z-index: 3;
+}
+
+.open .flap {
+  transform: rotateX(180deg);
 }
 
 .open .flap { transform: rotateX(180deg); }
@@ -57,11 +61,12 @@ body {
 /* ---------------- Pocket ---------------- */
 .pocket {
   position: absolute;
-  bottom: 0; left: 0;
-  width: 0; height: 0;
-  border-left: 50% solid transparent;
-  border-right: 50% solid transparent;
-  border-top: 40% solid #ff9eb0; /* pink pocket */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ff9eb0;
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
   z-index: 1;
 }
 
