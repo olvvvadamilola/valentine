@@ -5,11 +5,15 @@ $(document).ready(function () {
   envelope.on("click", function () {
     if (envelope.hasClass("close")) {
       envelope.removeClass("close").addClass("open");
+      
+      // Attempt to play music on interaction
       if (music && music.paused) {
-        music.play().catch(() => {});
+        music.play().catch((err) => {
+          console.log("Audio requires manual interaction first.");
+        });
       }
     } else {
-      // Transition delay in CSS handles the smooth "letter first, then flap" sequence
+      // Return to close state
       envelope.removeClass("open").addClass("close");
     }
   });
