@@ -3,11 +3,11 @@ body {
   margin: 0;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Dancing Script", cursive;
-  overflow: hidden; /* Prevents scrollbars during animation */
+  /* Updated Font */
+  font-family: 'Great Vibes', cursive;
+  overflow: hidden;
 }
 
 .container {
@@ -20,7 +20,6 @@ body {
   position: relative;
   width: 300px;
   height: 200px;
-  /* Adds space at top for the letter to fly out without clipping */
   padding-top: 150px; 
 }
 
@@ -29,13 +28,11 @@ body {
   width: 300px;
   height: 200px;
   background: #ff2d55;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
   cursor: pointer;
 }
 
-/* --- LAYERING SYSTEM (CRITICAL) --- */
-
-/* 1. Letter */
+/* --- THE LETTER (Always behind pocket) --- */
 .letter {
   position: absolute;
   left: 50%;
@@ -47,32 +44,24 @@ body {
   border-radius: 6px;
   padding: 15px;
   box-sizing: border-box;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  
-  /* ANIMATION SETTINGS */
-  transition: top 0.8s ease-in-out;
-  /* Delay moving the letter until flap is half open */
-  transition-delay: 0.4s; 
-  
-  /* CRITICAL: Keep z-index at 2. 
-     This keeps it BEHIND the pocket (z-4) and sides (z-3) always. */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 2; 
+  /* Letter slides fast when closing */
+  transition: top 0.6s ease-in-out; 
 }
 
-/* 2. Side Flaps */
+/* --- THE POCKET (Always in front) --- */
 .side {
   position: absolute;
   width: 100%;
   height: 100%;
   background: #ff5e78;
   top: 0;
-  z-index: 3; /* Always on top of letter */
+  z-index: 3;
 }
-
 .side.left { clip-path: polygon(0 0, 0 100%, 50% 50%); }
 .side.right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
 
-/* 3. Bottom Pocket */
 .pocket {
   position: absolute;
   bottom: 0;
@@ -81,10 +70,10 @@ body {
   height: 100%;
   background: #ff9eb0;
   clip-path: polygon(0 100%, 100% 100%, 50% 50%);
-  z-index: 4; /* Always on top of sides and letter */
+  z-index: 4;
 }
 
-/* 4. Top Flap */
+/* --- THE FLAP (Z-index dance) --- */
 .flap {
   position: absolute;
   top: 0;
@@ -94,35 +83,34 @@ body {
   background: #ff3d5c;
   clip-path: polygon(0 0, 100% 0, 50% 50%);
   transform-origin: top;
-  
-  /* Smooth open speed */
-  transition: transform 0.8s ease-in-out, z-index 0.4s;
-  z-index: 5; /* Starts on TOP */
+  z-index: 5;
+  /* When CLOSING: wait 0.6s for letter to slide down first */
+  transition: transform 0.6s ease-in-out, z-index 0.4s;
+  transition-delay: 0.6s, 0.6s;
 }
 
-/* --- OPEN STATES --- */
-
+/* --- OPEN STATE --- */
 .open .flap {
   transform: rotateX(180deg);
-  /* Once open, drop z-index so it goes BEHIND the letter */
-  z-index: 1; 
-  transition-delay: 0s;
+  z-index: 1;
+  /* When OPENING: flap moves immediately */
+  transition-delay: 0s, 0s;
 }
 
 .open .letter {
-  /* Move up just enough to see text, but bottom stays "in" pocket */
-  top: -30%; 
-  /* Note: z-index stays 2 */
+  top: -30%;
+  /* When OPENING: wait for flap to move before letter slides up */
+  transition-delay: 0.6s;
 }
 
-/* Hearts Animation */
+/* --- HEARTS & TEXT --- */
 .hearts {
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 10;
 }
@@ -153,18 +141,15 @@ body {
 .a2 { left: 50%; animation-delay: 1.8s; }
 .a3 { left: 80%; animation-delay: 1.1s; }
 
-/* Text Styles */
 .words {
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.4rem; /* Adjusted for the new font style */
   color: #ff6b81;
-  font-weight: 600;
-  margin-bottom: 2px;
 }
-.line1 { margin-top: 10px; font-weight: bold; }
 
-.reset {
-  margin-top: 20px;
-  color: #ff6b81;
-  font-weight: bold;
+.hint-text {
+  margin-top: 25px;
+  color: #ff4d6d;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
 }
