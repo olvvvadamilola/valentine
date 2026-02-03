@@ -1,34 +1,30 @@
 $(document).ready(function () {
-  var envelope = $("#envelope");
-  var music = document.getElementById("bg-music");
-  
-  // Function to open envelope
-  function open() {
+  const envelope = $("#envelope");
+  const music = document.getElementById("bg-music");
+  let hasInteracted = false;
+
+  function openEnvelope() {
     envelope.addClass("open").removeClass("close");
-    // Play music once after first click (mobile friendly)
-    if (music && music.paused) {
-      music.play().catch(function(error) {
-        console.log("Audio playback failed:", error);
-      });
+
+    if (hasInteracted && music && music.paused) {
+      music.play().catch(() => {});
     }
   }
-  
-  // Function to close envelope
-  function close() {
+
+  function closeEnvelope() {
     envelope.addClass("close").removeClass("open");
   }
-  
-  // Open on click (replay)
-  envelope.click(function () {
-    // If already open, reset briefly
+
+  envelope.on("click", function () {
+    hasInteracted = true;
+
     if (envelope.hasClass("open")) {
-      close();
-      setTimeout(open, 400); // small delay for smooth animation
+      closeEnvelope();
+      setTimeout(openEnvelope, 400);
     } else {
-      open();
+      openEnvelope();
     }
   });
-  
-  // Automatically open after 2 seconds
-  setTimeout(open, 2000);
+
+  setTimeout(openEnvelope, 2000);
 });
