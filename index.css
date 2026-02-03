@@ -1,37 +1,63 @@
+/* --- BACKGROUND VIDEO --- */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  object-fit: cover;
+  object-position: center;
+}
+
 body {
-  background-color: #e6d4f0;
   margin: 0;
+  padding: 0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Engagement', cursive;
+  background-color: #000;
   overflow: hidden;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* --- RESPONSIVE ENVELOPE SIZE --- */
 .envelope-wrapper {
   position: relative;
-  width: 300px;
-  height: 200px;
-  padding-top: 150px; 
+  /* Default for Mobile */
+  width: 280px; 
+  height: 180px;
+  transition: all 0.3s ease;
+}
+
+/* For Desktop/Tablets (Screens wider than 768px) */
+@media (min-width: 768px) {
+  .envelope-wrapper {
+    width: 450px;
+    height: 300px;
+  }
+  
+  #envelope {
+    width: 450px !important;
+    height: 300px !important;
+  }
+
+  .letter {
+    font-size: 2.2rem !important; /* Larger text for big screens */
+  }
 }
 
 #envelope {
   position: relative;
-  width: 300px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   background: #ff2d55;
-  box-shadow: 0 0 25px rgba(0,0,0,0.15);
+  box-shadow: 0 0 40px rgba(0,0,0,0.3);
   cursor: pointer;
 }
 
-/* --- THE LETTER (Parchment Texture) --- */
+/* --- THE LETTER (Parchment & Red Font) --- */
 .letter {
   position: absolute;
   left: 50%;
@@ -47,83 +73,28 @@ body {
   border-radius: 2px;
   padding: 15px;
   box-sizing: border-box;
-  box-shadow: 
-    inset 0 0 30px rgba(220, 180, 130, 0.2),
-    0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 0 30px rgba(220, 180, 130, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 2; 
   transition: top 0.6s ease-in-out; 
 }
 
-/* --- TEXT STYLE (Strictly Red) --- */
 .words {
   text-align: center;
   font-size: 1.6rem; 
-  color: #ff4d6d; /* Explicit Red/Pink-Red */
+  color: #ff1744; 
   line-height: 1.5rem;
   margin: 0;
 }
 
-.line1 { margin-top: 10px; font-weight: bold; }
-
-/* --- THE POCKET LAYERS --- */
-.side {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #ff5e78;
-  top: 0;
-  z-index: 3;
-}
-.side.left { clip-path: polygon(0 0, 0 100%, 50% 50%); }
-.side.right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
-
-.pocket {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #ff9eb0;
-  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
-  z-index: 4;
-}
-
-/* --- THE FLAP --- */
-.flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #ff3d5c;
-  clip-path: polygon(0 0, 100% 0, 50% 50%);
-  transform-origin: top;
-  z-index: 5;
-  transition: transform 0.6s ease-in-out, z-index 0.4s;
-  transition-delay: 0.6s, 0.6s;
-}
-
-.open .flap {
-  transform: rotateX(180deg);
-  z-index: 1;
-  transition-delay: 0s, 0s;
-}
-
-.open .letter {
-  top: -35%;
-  transition-delay: 0.6s;
-}
-
-/* --- HEARTS (Coming from INSIDE) --- */
+/* --- HEARTS (Inside the Envelope) --- */
 .hearts {
   position: absolute;
-  top: 90px;
+  top: 50%; /* Positioned relative to the envelope center */
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  /* Placed between letter and pocket */
-  z-index: 2.5; 
+  z-index: 2.5;
 }
 
 .heart {
@@ -131,42 +102,45 @@ body {
   bottom: 0;
   width: 20px;
   height: 20px;
-  background-color: #e60073;
+  background-color: #ff1744;
   transform: rotate(-45deg);
   opacity: 0;
 }
 
-.heart::before,
-.heart::after {
+/* Humps for the heart */
+.heart::before, .heart::after {
   content: "";
   position: absolute;
   width: 20px;
   height: 20px;
-  background-color: #e60073;
+  background-color: #ff1744;
   border-radius: 50%;
 }
-
 .heart::before { top: -10px; left: 0; }
 .heart::after { left: 10px; top: 0; }
 
 @keyframes floatAndGrow {
   0% { transform: translateY(0) scale(0.5) rotate(-45deg); opacity: 0; }
   30% { opacity: 1; }
-  100% { transform: translateY(-300px) scale(2.5) rotate(-45deg); opacity: 0; }
+  100% { transform: translateY(-350px) scale(2.5) rotate(-45deg); opacity: 0; }
 }
 
 .open .heart {
   animation: floatAndGrow 3.5s ease-in-out infinite;
 }
 
+/* Position adjustments for hearts */
 .a1 { left: 20%; animation-delay: 0.5s; }
 .a2 { left: 40%; animation-delay: 1.2s; }
 .a3 { left: 60%; animation-delay: 2.2s; }
 .a4 { left: 80%; animation-delay: 1.7s; }
 
+/* ... Keep Side, Pocket, and Flap styles from previous code ... */
+
 .hint-text {
-  margin-top: 30px;
-  color: #ff4d6d;
+  margin-top: 50px;
+  color: #fff; /* White looks better over most video backgrounds */
   font-size: 1.8rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  z-index: 10;
 }
