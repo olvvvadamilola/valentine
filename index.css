@@ -1,66 +1,73 @@
 body {
   background-color: #e6d4f0;
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column; /* Stack envelope and buttons */
   justify-content: center;
   align-items: center;
   font-family: "Dancing Script", cursive;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 /* Wrapper */
 .envelope-wrapper {
-  width: 360px;
-  height: 240px;
-  /* Added padding top so the letter doesn't get cut off when it moves up */
-  padding-top: 200px; 
+  position: relative;
+  width: 300px; /* Reduced slightly for better mobile fit */
+  height: 200px;
+  margin-top: 50px;
 }
 
 /* Envelope container */
 #envelope {
   position: relative;
-  width: 360px;
-  height: 240px;
-  background: #ff2d55; /* Back color */
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  /* CRITICAL FIX: Removed overflow: hidden so hearts/letter can fly out */
-}
-
-/* Top flap */
-.flap {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%; /* Changed to 100% to cover properly */
-  background: #ff3d5c;
-  clip-path: polygon(0 0, 100% 0, 50% 55%); /* Adjusted shape */
-  transform-origin: top;
-  /* FIX: Slowed down to 1.5s */
-  transition: transform 1.5s ease-in-out, z-index 1.5s; 
-  z-index: 5; /* Topmost when closed */
+  height: 100%;
+  background: #ff2d55;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 
-/* Side Flaps (New) - Covers the letter sides */
+/* --- LAYERING SYSTEM (Z-INDEX) --- */
+
+/* 1. Letter (Middle Layer) */
+.letter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 90%;
+  height: 90%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 6px;
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: top 1.5s ease-in-out; 
+  
+  /* CRITICAL: Must be LOWER than sides/pocket */
+  z-index: 2; 
+}
+
+/* 2. Sides (Upper Middle Layer) */
 .side {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #ff5e78; /* Slightly darker than pocket for depth */
+  background: #ff5e78;
   top: 0;
-  z-index: 3; /* Above letter, below bottom pocket */
+  z-index: 3; /* Above letter */
 }
 
-.side.left {
-  clip-path: polygon(0 0, 0 100%, 50% 50%);
-}
+.side.left { clip-path: polygon(0 0, 0 100%, 50% 50%); }
+.side.right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
 
-.side.right {
-  clip-path: polygon(100% 0, 100% 100%, 50% 50%);
-}
-
-/* Bottom Pocket */
+/* 3. Bottom Pocket (Upper Middle Layer) */
 .pocket {
   position: absolute;
   bottom: 0;
@@ -68,47 +75,49 @@ body {
   width: 100%;
   height: 100%;
   background: #ff9eb0;
-  /* Changed clip-path to be just the bottom triangle */
-  clip-path: polygon(0 100%, 100% 100%, 50% 50%); 
-  z-index: 4; /* Above sides and letter */
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  z-index: 4; /* Above sides */
 }
 
-/* Letter */
-.letter {
+/* 4. Top Flap (Top Layer when closed) */
+.flap {
   position: absolute;
-  left: 50%;
-  top: 50%; /* Start inside */
-  width: 85%;
-  height: 80%;
-  transform: translate(-50%, -50%); /* Center it */
-  background: #fff;
-  border-radius: 6px;
-  padding: 20px;
-  box-sizing: border-box;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: top 1.5s ease-in-out, z-index 0.5s;
-  z-index: 2; /* Inside the envelope (below flaps) */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff3d5c;
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  transform-origin: top;
+  transition: transform 1.5s ease-in-out, z-index 1.5s;
+  z-index: 5; /* Topmost when closed */
 }
+
+/* --- ANIMATIONS --- */
 
 /* Open state */
 .open .flap {
   transform: rotateX(180deg);
-  z-index: 1; /* Moves behind everything when open */
+  /* Delay z-index change so it doesn't clip through while rotating */
+  transition-delay: 0s; 
+  z-index: 1; 
 }
 
 .open .letter {
-  top: -60px; /* Moves up out of envelope */
-  z-index: 6; /* Moves slightly above pocket for readability */
+  /* Move up just enough to be read, but keep bottom tucked */
+  top: -40%; 
+  /* It stays z-index 2, so it stays BEHIND the bottom pocket */
 }
 
 /* Text Formatting */
 .words {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #ff6b81;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
+.line1 { margin-top: 10px; font-weight: bold; }
 
 /* Hearts */
 .hearts {
@@ -125,36 +134,63 @@ body {
 .heart {
   position: absolute;
   bottom: 0;
-  opacity: 0; /* Hidden by default */
+  opacity: 0;
 }
 
 .heart::before {
   content: "❤";
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #ff1744;
 }
 
-/* FIX: Animation for hearts */
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-150px) scale(1.2);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-150px) scale(1.2); opacity: 0; }
 }
 
-/* Trigger animation only when open */
 .open .heart {
   animation: floatUp 3s ease-in-out infinite;
 }
 
-/* Stagger the hearts so they don't move together */
-.a1 { left: 20%; animation-delay: 0.2s !important; }
-.a2 { left: 50%; animation-delay: 1.5s !important; }
-.a3 { left: 80%; animation-delay: 0.8s !important; }
+.a1 { left: 20%; animation-delay: 0.2s; }
+.a2 { left: 50%; animation-delay: 1.5s; }
+.a3 { left: 80%; animation-delay: 0.8s; }
+
+/* --- CONTROLS --- */
+.controls {
+  margin-top: 50px;
+  z-index: 20;
+}
+
+button {
+  padding: 10px 20px;
+  font-family: "Dancing Script", cursive;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff3d5c;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 0 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+button:hover {
+  background-color: #ff1744;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 450px) {
+  .envelope-wrapper {
+    /* Scale down slightly on small phones */
+    transform: scale(0.8); 
+  }
+}
