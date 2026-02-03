@@ -1,45 +1,139 @@
-html
+/* ---------------- Body ---------------- */
+body {
+  background-color: #e6d4f0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Dancing Script", cursive;
+}
 
+/* ---------------- Envelope Wrapper ---------------- */
+.envelope-wrapper {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  perspective: 1000px;
+  margin: 20px auto;
+}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oluwadamilola's Valentine</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap"
-      rel="stylesheet" />
-    <link rel="stylesheet" href="index.css" />
-  </head>
-  <body>
-    <div class="envelope-wrapper">
-      <div id="envelope" class="close">
-        <div class="front flap"></div>
-        <div class="front pocket"></div>
-        <div class="letter">
-          <div class="words line1">To: Oluwadamilola my love.</div>
-          <div class="words line2">I love you endlessly</div>
-          <div class="words line3">Now and forever</div>
-          <div class="words line4">Be my Valentine?💘</div>
-          <div class="words line5">Forever yours ❤️</div>
-        </div>
-        <div class="hearts">
-          <div class="heart a1"></div>
-          <div class="heart a2"></div>
-          <div class="heart a3"></div>
-        </div>
-      </div>
-    </div>
+/* ---------------- Envelope ---------------- */
+#envelope {
+  position: relative;
+  width: 100%;
+  padding-top: 60%; /* aspect ratio */
+  cursor: pointer;
+}
 
-    <!-- Background music -->
-    <audio id="bg-music" loop>
-      <source src="kotrell.mp3" type="audio/mpeg">
-    </audio>
+/* ---------------- Envelope Base ---------------- */
+#envelope::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #ff2d55; /* Valentine red */
+  border-radius: 8px;
+  z-index: 0;
+}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="script.js"></script>
-  </body>
-</html>
+/* ---------------- Flap ---------------- */
+.flap {
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-left: 50% solid transparent;
+  border-right: 50% solid transparent;
+  border-bottom: 40% solid #ff3d5c;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.6s ease;
+  z-index: 3;
+}
+
+.open .flap { transform: rotateX(180deg); }
+
+/* ---------------- Pocket ---------------- */
+.pocket {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 0;
+  border-left: 50% solid transparent;
+  border-right: 50% solid transparent;
+  border-top: 40% solid #ff9eb0; /* pink pocket */
+  z-index: 1;
+}
+
+/* ---------------- Letter ---------------- */
+.letter {
+  position: absolute;
+  top: 20%; left: 50%;
+  width: 80%; height: 60%;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, #fff 0%, #fff9fc 100%);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 2;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: top 0.6s ease;
+}
+
+.close .letter { top: 20%; }
+.open  .letter { top: -10%; }
+
+/* ---------------- Letter Text ---------------- */
+.words {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  width: 90%;
+  text-align: center;
+  font-size: calc(1rem + 0.5vw);
+  color: #ffb3c6;
+  font-weight: 600;
+}
+
+.words.line1 { top: 10%; }
+.words.line2 { top: 30%; }
+.words.line3 { top: 50%; }
+.words.line4 { top: 70%; }
+.words.line5 { top: 85%; } /* extra line */
+
+/* ---------------- Hearts ---------------- */
+.hearts {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.heart {
+  position: absolute;
+  width: 12%; height: 12%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.open .heart { opacity: 1; }
+
+.heart:before {
+  content: "❤";
+  position: absolute;
+  font-size: 2rem;
+  color: #ff1744;
+  top: 0; left: 0;
+}
+
+/* Hearts positions */
+.a1 { top: 15%; left: 20%; }
+.a2 { top: 50%; left: 50%; }
+.a3 { top: 75%; left: 30%; }
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 500px) {
+  #envelope { padding-top: 70%; }
+  .letter { width: 85%; height: 60%; padding: 15px; }
+  .words { font-size: calc(0.9rem + 1vw); }
+  .heart { width: 15%; height: 15%; }
+}
