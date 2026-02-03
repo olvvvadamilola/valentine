@@ -21,9 +21,7 @@ $(document).ready(function () {
       setTimeout(() => { btn.text("Close"); }, 300);
       const interval = setInterval(createPetal, 250);
       envelope.data("petalInterval", interval);
-      if (music && music.paused) {
-        music.play().catch(err => console.log("Audio waiting for user click."));
-      }
+      if (music && music.paused) music.play().catch(e => console.log("Music play blocked"));
     } else {
       envelope.removeClass("open").addClass("close");
       setTimeout(() => { btn.text("Open"); }, 300);
@@ -31,6 +29,20 @@ $(document).ready(function () {
       petalsContainer.empty();
     }
   }
+
+  // YES: Link to your page
+  $("#yes-btn").on("click", function(e) {
+    e.stopPropagation();
+    window.location.href = "YOUR_LINK_HERE"; 
+  });
+
+  // NO: Hide and Seek
+  $("#no-btn").on("mouseover touchstart", function(e) {
+    e.stopPropagation();
+    const x = (Math.random() - 0.5) * 120;
+    const y = (Math.random() - 0.5) * 80;
+    $(this).css('transform', `translate(${x}px, ${y}px)`);
+  });
 
   envelope.on("click", toggleEnvelope);
   btn.on("click", toggleEnvelope);
