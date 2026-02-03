@@ -1,28 +1,19 @@
 $(document).ready(function () {
   const envelope = $("#envelope");
-  const btnOpen = $("#openBtn");
-  const btnClose = $("#closeBtn");
   const music = document.getElementById("bg-music");
 
-  function openEnvelope() {
-    envelope.addClass("open").removeClass("close");
-    
-    // Play music when opened
-    if (music && music.paused) {
-      music.play().catch((e) => console.log("Audio play failed (user interaction needed first)"));
+  envelope.on("click", function () {
+    if (envelope.hasClass("close")) {
+      // Open
+      envelope.removeClass("close").addClass("open");
+      
+      // Play music logic
+      if (music && music.paused) {
+        music.play().catch((e) => console.log("Audio play error:", e));
+      }
+    } else {
+      // Close
+      envelope.removeClass("open").addClass("close");
     }
-  }
-
-  function closeEnvelope() {
-    envelope.addClass("close").removeClass("open");
-  }
-
-  // Button Event Listeners
-  btnOpen.click(function() {
-    openEnvelope();
-  });
-
-  btnClose.click(function() {
-    closeEnvelope();
   });
 });
