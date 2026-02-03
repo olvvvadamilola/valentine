@@ -54,6 +54,7 @@ body {
 
 .open .flap {
   transform: rotateX(180deg);
+  z-index: 1; /* let the letter come above it */
 }
 
 .open .flap { transform: rotateX(180deg); }
@@ -86,7 +87,10 @@ body {
 }
 
 .close .letter { top: 20%; }
-.open  .letter { top: -10%; }
+.open .letter {
+  top: -35%;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
 
 /* ---------------- Letter Text ---------------- */
 .words {
