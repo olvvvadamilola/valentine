@@ -3,7 +3,6 @@ $(document).ready(function () {
   const btn = $("#action-btn");
   const music = document.getElementById("bg-music");
   const petalsContainer = $("#petals-container");
-  const noBtn = $("#no-btn");
 
   function createPetal() {
     if (!envelope.hasClass("open")) return;
@@ -22,7 +21,9 @@ $(document).ready(function () {
       setTimeout(() => { btn.text("Close"); }, 300);
       const interval = setInterval(createPetal, 250);
       envelope.data("petalInterval", interval);
-      if (music && music.paused) music.play();
+      if (music && music.paused) {
+        music.play().catch(err => console.log("Audio waiting for user click."));
+      }
     } else {
       envelope.removeClass("open").addClass("close");
       setTimeout(() => { btn.text("Open"); }, 300);
@@ -30,27 +31,6 @@ $(document).ready(function () {
       petalsContainer.empty();
     }
   }
-
-  // PRANK: Runaway Button
-  noBtn.on("mouseover touchstart", function () {
-      const x = (Math.random() - 0.5) * 200;
-      const y = (Math.random() - 0.5) * 200;
-      $(this).css("transform", `translate(${x}px, ${y}px)`);
-  });
-
-  noBtn.on("click", (e) => { e.stopPropagation(); $("#sike-overlay").css("display", "flex"); });
-  
-  $("#yes-btn").on("click", (e) => { 
-      e.stopPropagation(); 
-      $("#video-page").css("display", "flex"); 
-      document.getElementById("yes-video").play(); 
-  });
-
-  $("#try-again, .close-overlay").on("click", () => { 
-      $(".overlay").hide(); 
-      noBtn.css("transform", "translate(0,0)");
-      document.getElementById("yes-video").pause();
-  });
 
   envelope.on("click", toggleEnvelope);
   btn.on("click", toggleEnvelope);
