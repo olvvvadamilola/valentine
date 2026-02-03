@@ -1,57 +1,59 @@
-/* --- THE BACKGROUND VIDEO --- */
+/* --- RESET & BODY --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Engagement', cursive;
+  overflow: hidden;
+  background-color: #000;
+}
+
+/* --- VIDEO LAYER --- */
 #bg-video {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1; /* Pushes video to the very bottom layer */
+  width: 100%;
+  height: 100%;
+  z-index: -1;
   object-fit: cover;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background-color: black; /* Fallback */
-}
-
-/* --- THE CONTAINER (Forces everything to stay in front) --- */
+/* --- CONTAINER --- */
 .container {
   position: relative;
-  z-index: 10; /* Higher than the video */
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 /* --- ENVELOPE BASE --- */
-#envelope {
+.envelope-wrapper {
   position: relative;
   width: 300px;
   height: 200px;
-  background: #ff2d55; /* The red envelope color */
-  z-index: 1; /* Base layer for envelope parts */
 }
 
-/* --- POCKET & SIDES (Must be visible) --- */
-.side, .pocket {
-  position: absolute;
+#envelope {
+  position: relative;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
+  background: #ff2d55;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  cursor: pointer;
+  z-index: 1;
 }
 
-.side { z-index: 3; }
-.pocket { z-index: 4; }
-
-/* --- THE LETTER --- */
+/* --- THE LETTER (Parchment & Red Font) --- */
 .letter {
   position: absolute;
   left: 50%;
@@ -59,29 +61,118 @@ body {
   width: 90%;
   height: 90%;
   transform: translate(-50%, -50%);
-  background-color: #fff9e6; /* Parchment */
-  z-index: 2; /* Sits behind pocket/sides but in front of back of envelope */
+  background-color: #fff9e6;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), transparent),
+    linear-gradient(rgba(200, 180, 150, 0.1) 1px, transparent 1px);
+  background-size: 100% 1.5rem;
+  padding: 15px;
+  z-index: 2;
   transition: top 0.6s ease-in-out;
 }
 
-/* --- THE FLAP --- */
+.words {
+  text-align: center;
+  font-size: 1.6rem;
+  color: #ff1744;
+  line-height: 1.5rem;
+}
+
+/* --- ENVELOPE PARTS --- */
+.side {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ff5e78;
+  z-index: 3;
+}
+.side.left { clip-path: polygon(0 0, 0 100%, 50% 50%); }
+.side.right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
+
+.pocket {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ff9eb0;
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  z-index: 4;
+}
+
 .flap {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: #ff3d5c;
-  z-index: 5; /* Top layer when closed */
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  z-index: 5;
   transform-origin: top;
   transition: transform 0.6s ease-in-out, z-index 0.4s;
+  transition-delay: 0.6s;
 }
 
-/* --- HINT TEXT --- */
+/* --- OPEN STATE --- */
+.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+  transition-delay: 0s;
+}
+.open .letter {
+  top: -30%;
+  transition-delay: 0.6s;
+}
+
+/* --- FANCY HEARTS --- */
+.hearts {
+  position: absolute;
+  top: 90px;
+  width: 100%;
+  height: 100%;
+  z-index: 2.5;
+  pointer-events: none;
+}
+
+.heart {
+  position: absolute;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background-color: #ff1744;
+  transform: rotate(-45deg);
+  opacity: 0;
+}
+
+.heart::before, .heart::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: #ff1744;
+  border-radius: 50%;
+}
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: 9px; top: 0; }
+
+@keyframes floatAndGrow {
+  0% { transform: translateY(0) scale(0.5) rotate(-45deg); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-300px) scale(2.2) rotate(-45deg); opacity: 0; }
+}
+
+.open .heart { animation: floatAndGrow 3.5s ease-in-out infinite; }
+.a1 { left: 15%; animation-delay: 0.5s; }
+.a2 { left: 35%; animation-delay: 1.5s; }
+.a3 { left: 65%; animation-delay: 2.5s; }
+.a4 { left: 85%; animation-delay: 0.8s; }
+
+/* --- TEXT & DESKTOP ADJUSTMENTS --- */
 .hint-text {
-  margin-top: 40px;
+  margin-top: 50px;
   color: white;
   font-size: 1.8rem;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-  z-index: 10;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+}
+
+@media (min-width: 768px) {
+  .envelope-wrapper { width: 450px; height: 300px; }
+  .words { font-size: 2rem; line-height: 2rem; }
 }
