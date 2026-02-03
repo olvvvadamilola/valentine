@@ -36,12 +36,26 @@ $(document).ready(function () {
     window.location.href = "YOUR_LINK_HERE"; 
   });
 
+  // NO: Hide and Seek (Screen-wide version)
   noBtn.on("touchstart mouseover", function(e) {
     if (e.type === "touchstart") e.preventDefault();
     e.stopPropagation();
-    const x = (Math.random() - 0.5) * 150;
-    const y = (Math.random() - 0.5) * 100;
-    $(this).css('transform', `translate(${x}px, ${y}px)`);
+
+    // Get screen dimensions (minus button size to keep it on screen)
+    const maxX = window.innerWidth - $(this).outerWidth();
+    const maxY = window.innerHeight - $(this).outerHeight();
+
+    // Generate random absolute positions
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    $(this).css({
+      'position': 'fixed',
+      'left': randomX + 'px',
+      'top': randomY + 'px',
+      'transition': '0.2s ease-out',
+      'z-index': '9999' // Ensure it stays above everything
+    });
   });
 
   envelope.on("click", toggleEnvelope);
