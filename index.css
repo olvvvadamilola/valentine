@@ -31,17 +31,19 @@ body {
   position: absolute; left: 50%; top: 50%; width: 90%; 
   height: auto; min-height: 100%;
   transform: translate(-50%, -50%); background-color: #fff9e6;
-  padding: 20px 15px; z-index: 2;
+  padding: 20px 15px; 
+  z-index: 10; /* Lifts letter above envelope sides */
   transition: top 0.5s ease-in-out;
   display: flex; flex-direction: column; 
   justify-content: center; align-items: center;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }
 .words { text-align: center; font-size: 1.4rem; color: #ff1744; line-height: 1.6rem; margin-bottom: 8px; }
 
-.decision-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 15px; width: 100%; }
+.decision-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 15px; width: 100%; z-index: 11; }
 #yes-btn, #no-btn { padding: 8px 20px; font-family: 'Engagement', cursive; font-size: 1.2rem; border: none; border-radius: 10px; cursor: pointer; transition: transform 0.2s ease; }
 #yes-btn { background: #ff1744; color: white; animation: pulse 1.5s infinite; }
-#no-btn { background: #eeeeee; color: #888; position: relative; z-index: 10; }
+#no-btn { background: #eeeeee; color: #888; position: relative; z-index: 12; }
 
 @keyframes pulse {
   0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 23, 68, 0.7); }
@@ -60,7 +62,7 @@ body {
 .flap { position: absolute; width: 100%; height: 100%; background: #ff3d5c; clip-path: polygon(0 0, 100% 0, 50% 50%); z-index: 5; transform-origin: top; transition: transform 0.4s ease-in-out, z-index 0.4s; }
 
 .open .flap { transform: rotateX(180deg); z-index: 1; }
-.open .letter { top: 0%; transition-delay: 0.5s; } /* Pulls it even higher for max visibility */
+.open .letter { top: -8%; transition-delay: 0.5s; } /* Pulls it high enough to clear the pocket */
 .close .letter { top: 50%; transition-delay: 0s; }
 .close .flap { transform: rotateX(0deg); z-index: 5; transition-delay: 0.5s; }
 
@@ -70,4 +72,5 @@ body {
   .envelope-wrapper { width: 450px; height: 300px; }
   .polaroid { width: 220px; height: 280px; }
   .words { font-size: 2.5rem; line-height: 2.8rem; }
+  .open .letter { top: -5%; }
 }
