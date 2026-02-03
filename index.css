@@ -1,4 +1,4 @@
-/* --- RESET & BODY --- */
+/* --- RESET --- */
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +16,7 @@ body {
   background-color: #000;
 }
 
-/* --- VIDEO LAYER --- */
+/* --- VIDEO --- */
 #bg-video {
   position: fixed;
   top: 0;
@@ -27,7 +27,7 @@ body {
   object-fit: cover;
 }
 
-/* --- CONTAINER --- */
+/* --- WRAPPER --- */
 .container {
   position: relative;
   z-index: 10;
@@ -36,7 +36,6 @@ body {
   align-items: center;
 }
 
-/* --- ENVELOPE BASE --- */
 .envelope-wrapper {
   position: relative;
   width: 300px;
@@ -53,7 +52,7 @@ body {
   z-index: 1;
 }
 
-/* --- THE LETTER (Parchment & Red Font) --- */
+/* --- LETTER & TEXT --- */
 .letter {
   position: absolute;
   left: 50%;
@@ -75,7 +74,13 @@ body {
   text-align: center;
   font-size: 1.6rem;
   color: #ff1744;
-  line-height: 1.5rem;
+  line-height: 1.8rem;
+}
+
+.emoji {
+  /* This prevents the emojis from being colored by the text color */
+  color: initial; 
+  font-family: Arial, sans-serif;
 }
 
 /* --- ENVELOPE PARTS --- */
@@ -107,21 +112,19 @@ body {
   z-index: 5;
   transform-origin: top;
   transition: transform 0.6s ease-in-out, z-index 0.4s;
-  transition-delay: 0.6s;
 }
 
-/* --- OPEN STATE --- */
+/* --- ANIMATION STATES --- */
 .open .flap {
   transform: rotateX(180deg);
   z-index: 1;
-  transition-delay: 0s;
 }
 .open .letter {
   top: -30%;
-  transition-delay: 0.6s;
+  transition-delay: 0.5s;
 }
 
-/* --- FANCY HEARTS --- */
+/* --- HEARTS --- */
 .hearts {
   position: absolute;
   top: 90px;
@@ -164,7 +167,7 @@ body {
 .a3 { left: 65%; animation-delay: 2.5s; }
 .a4 { left: 85%; animation-delay: 0.8s; }
 
-/* --- TEXT & DESKTOP ADJUSTMENTS --- */
+/* --- HINT --- */
 .hint-text {
   margin-top: 50px;
   color: white;
@@ -172,7 +175,8 @@ body {
   text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
 }
 
+/* --- DESKTOP --- */
 @media (min-width: 768px) {
   .envelope-wrapper { width: 450px; height: 300px; }
-  .words { font-size: 2rem; line-height: 2rem; }
+  .words { font-size: 2rem; line-height: 2.2rem; }
 }
