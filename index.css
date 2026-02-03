@@ -55,7 +55,7 @@ body {
 
 .open .polaroid {
   /* This moves it to the left side (-145%) and tilts it (-12deg) */
-  transform: translate(-145%, -65%) rotate(-12deg);
+  transform: translate(-125%, -65%) rotate(-12deg);
   opacity: 1;
 }
 
