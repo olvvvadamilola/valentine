@@ -105,56 +105,61 @@ body {
 }
 
 /* --- FANCIER FLOATING HEARTS --- */
+/* --- THE HEARTS (Positioned inside the envelope) --- */
 .hearts {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 90px; /* Moves the starting point inside the pocket */
+  left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 10;
+  /* CRITICAL: Higher than letter (z-2) but LOWER than side/pocket (z-3, z-4) */
+  z-index: 2.5; 
 }
 
 .heart {
   position: absolute;
-  bottom: 20px;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background-color: #ff1744;
+  transform: rotate(-45deg);
   opacity: 0;
-  width: 40px;
-  height: 40px;
 }
 
+/* Creating the rounded heart humps */
 .heart::before,
 .heart::after {
   content: "";
   position: absolute;
-  width: 25px;
-  height: 40px;
-  background: linear-gradient(135deg, #ff1744 0%, #d50000 100%);
-  border-radius: 50px 50px 0 0;
-  box-shadow: 0 0 15px rgba(213, 0, 0, 0.3);
+  width: 18px;
+  height: 18px;
+  background-color: #ff1744;
+  border-radius: 50%;
 }
 
 .heart::before {
-  transform: rotate(-45deg);
-  left: 10px;
-}
-
-.heart::after {
-  transform: rotate(45deg);
+  top: -9px;
   left: 0;
 }
 
+.heart::after {
+  left: 9px;
+  top: 0;
+}
+
+/* Updated Animation: Hearts now emerge from the pocket */
 @keyframes floatAndGrow {
   0% { 
-    transform: translateY(0) scale(0.3); 
+    transform: translateY(0) scale(0.5) rotate(-45deg); 
     opacity: 0; 
   }
-  20% { 
-    opacity: 0.9; 
+  30% { 
+    opacity: 1; /* Fade in quickly as they peak out */
   }
   100% { 
-    transform: translateY(-280px) scale(2.0) rotate(20deg); 
+    /* Float much higher and drift */
+    transform: translateY(-300px) scale(2.2) rotate(-45deg); 
     opacity: 0; 
   }
 }
@@ -163,10 +168,11 @@ body {
   animation: floatAndGrow 3.5s ease-in-out infinite;
 }
 
-.a1 { left: 10%; animation-delay: 0.5s; }
-.a2 { left: 35%; animation-delay: 1.5s; }
-.a3 { left: 60%; animation-delay: 2.5s; }
-.a4 { left: 85%; animation-delay: 0.8s; }
+/* Individual placements */
+.a1 { left: 20%; animation-delay: 0.5s; }
+.a2 { left: 40%; animation-delay: 1.2s; }
+.a3 { left: 60%; animation-delay: 2.2s; }
+.a4 { left: 80%; animation-delay: 1.7s; }
 
 /* --- TEXT STYLES --- */
 .words {
