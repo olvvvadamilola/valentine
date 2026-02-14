@@ -33,7 +33,7 @@ $(document).ready(function () {
 
   $("#yes-btn").on("click", function(e) {
     e.stopPropagation();
-    window.location.href = "YOUR_LINK_HERE"; 
+    window.location.href = "https://www.notion.so/To-my-lover-2fcb5aaf67cf80ad9e22fe6382714b3f?source=copy_link"; 
   });
 
   // NO: Hide and Seek (Screen-wide version)
